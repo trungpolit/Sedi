@@ -1,0 +1,55 @@
+@font-face
+{
+	font-family: 'Rage comic';
+	src:url("fonts/Far_Chehre.ttf") format('truetype');	
+}
+@font-face
+{
+	font-family: 'Memes';
+	src:url("fonts/Memes.ttf") format('truetype');	
+}
+@font-face
+{
+	font-family: 'Simpsons';
+	src:url("fonts/Simpsons.TTF") format('truetype');	
+}
+@font-face
+{
+	font-family: 'Peanuts Gang';
+	src:url("fonts/Peanuts_Gang_Dingbats.ttf") format('truetype');	
+}
+
+
+@font-face
+{
+	font-family: 'Arial';
+	src:local("fonts/ARIAL.TTF") format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face
+{
+	font-family: 'Arial';
+	src:url("fonts/ARIAL.TTF") format('truetype');
+	font-weight: bold;
+	font-style: normal;
+}
+@font-face
+{
+	font-family: 'Arial';
+	src:url("fonts/ARIAL.TTF") format('truetype');
+	font-weight: normal;
+	font-style: italic;
+}
+
+@font-face
+{
+	font-family: 'Tahoma';
+	src:url("fonts/TAHOMA.TTF") format('truetype');
+}
+
+@font-face
+{
+	font-family: 'Comic Sans MS';
+	src:url("fonts/COMIC.TTF") format('truetype');
+}

@@ -1,0 +1,70 @@
+#gallerypanel-popup, #editimage-popup, #editimagemini-popup, #textpanel-popup, #textpanelmini-popup {
+	position: absolute;
+	bottom: 0 !important;
+	top: auto !important;
+}
+#editimage, #editimagemini, #gallerypanel, #textpanel, #textpanelmini {
+	border: 1px solid #000;
+	background: rgba(0,0,0,.5);
+	padding-left: 2px !important;
+}
+#editimage .close, #editimagemini .close, #gallerypanel .close, #textpanel .close, #textpanelmini .close {
+	margin-left: 20px;
+	margin-right: 20px;
+}
+#gallery img {
+	margin: 0 auto;
+	display: block;
+	margin-top: 5px;
+}
+#prev {
+	position: absolute;
+	left: 0px;
+	display: inline-block;
+	top: 30%;
+}
+#next {
+	position: absolute;
+	right: 0px;
+	display: inline-block;
+	top: 30%;
+}
+#footer .ui-btn .ui-btn-inner {
+	padding-top: 48px !important;
+}
+#footer .ui-btn .ui-icon {
+	width: 32px!important;
+	height: 32px!important;
+	margin-left: -16px !important;
+	box-shadow: none!important;
+	-moz-box-shadow: none!important;
+	-webkit-box-shadow: none!important;
+	-webkit-border-radius: 0 !important;
+	border-radius: 0 !important;
+}
+#opengallery .ui-icon {
+	background: url(navbar/gallery.png) 50% 50% no-repeat;
+	background-size: auto;
+}
+#uploadphoto .ui-icon {
+	background: url(navbar/upload.png) 50% 50% no-repeat;
+	background-size: auto;
+}
+#opentextpanel .ui-icon {
+	background: url(navbar/fontstyle.png) 50% 50% no-repeat;
+	background-size: auto;
+}
+#sharephoto .ui-icon {
+	background: url(navbar/share.png) 50% 50% no-repeat;
+	background-size: auto;
+}
+#savephoto .ui-icon {
+	background: url(navbar/save.png) 50% 50% no-repeat;
+	background-size: auto;
+}
+.center {
+	margin: 0px auto;
+	margin-left:auto;
+	margin-right:auto;
+	text-align:center;
+}

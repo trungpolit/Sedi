@@ -1,0 +1,342 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta name="viewport" content="height=device-height,width=device-width,initial-scale=1.0,maximum-scale=1.0" >
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<title>Self-editing</title>
+<script type="text/javascript" src="jquery.mobile/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="kinetic-v4.2.0.min.js"></script>
+<script type="text/javascript" src="miniColors/jquery.miniColors.min.js"></script>
+<link rel="stylesheet" type="text/css" href="miniColors/jquery.miniColors.css" />
+<script type="text/javascript" src="jquery.mobile/jquery.mobile-1.2.0.min.js"></script>
+<link rel="stylesheet" type="text/css" href="jquery.mobile/jquery.mobile-1.2.0.css" />
+<link rel="stylesheet" type="text/css" href="jquery.mobile/jquery.mobile.structure-1.2.0.css" />
+<link rel="stylesheet" type="text/css" href="jquery.mobile/jquery.mobile.theme-1.2.0.css" />
+<link rel="stylesheet" type="text/css" href="fonts.css" />
+<link rel="stylesheet" type="text/css" href="main.css" />
+<script type="text/javascript" charset="utf-8" src="dbinit.js"></script>
+<script type="text/javascript" charset="utf-8" src="cordova-2.2.0.js"></script>
+<script type="text/javascript" charset="utf-8" src="SQLitePlugin.js"></script>
+<script type="text/javascript" charset="utf-8" src="Base64ToPNG.js"></script>
+<script type="text/javascript" charset="utf-8" src="webintent.js"></script>
+<script type="text/javascript" charset="utf-8" src="main.js"></script>
+
+<!-- cordova facebook plugin -->
+<script src="cdv-plugin-fb-connect.js"></script>
+<!-- facebook js sdk -->
+<script src="facebook_js_sdk.js"></script>
+<script src="js/auth.js"></script>
+
+<!--<script src="js/_config.js"></script>-->
+<!-- <script src="js/ui.js"></script> -->
+<!-- <script src="js/feed.js"></script> -->
+<!-- <script src="js/graph_api.js"></script> -->
+<!-- <script src="js/requests.js"></script> -->
+<!--<script src="js/credits.js"></script>-->
+
+
+</head>
+<body onload="init();" id="stage" class="theme">
+<div data-role="page" id="main">
+  <div data-role="header" data-position="fixed" data-fullscreen="true">
+    <h1>SEDI</h1>
+    <a data-icon="info" class="ui-btn-corner-all ui-btn-right" href="#feedback" data-transition="flow">Phản hồi</a>
+    
+  </div>
+  <div data-role="content" id="workspace">
+  <div style="font-family: 'Calibri','Comic Sans MS','Peanuts Gang','Tahoma','Simpsons','Arial','Memes','Rage comic'; color:#ffffff;">.</div>
+   </div>
+  <div data-role="footer" data-position="fixed" data-fullscreen="true">
+    <div data-role="navbar" id="footer">
+      <ul>
+        <li> <a href="#gallerypanel" data-rel="popup" data-transition="slideup" data-position-to="window" id="opengallery" data-icon="custom">Thư viện</a> </li>
+        <li> <a   id="uploadphoto" data-icon="custom">Tải ảnh</a> </li>
+        <li> <a  id="opentextpanel" data-icon="custom"> Thêm text </a> </li>
+        <li> <a  id="sharephoto" data-icon="custom" data-rel="popup" href="#sharefacebook" data-transition="slidedown" data-position-to="window">Chia sẻ</a> </li>
+        <li> <a  id="savephoto" data-icon="custom">Lưu ảnh</a> </li>
+      </ul>
+    </div>
+  </div>
+  <div data-role="popup" id="gallerypanel" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0" class="panel"> <a href="#" data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right close" data-theme="a"></a>
+    <div id="slideshow">
+     </div>
+    <div id="filter"> </div>
+  </div>
+  <div data-role="popup" id="editimage" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0" class="panel"> <a href="#" data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right close" data-theme="a"></a>
+    <div class="ui-grid-a">
+      <div class="ui-block-a" style="margin: 0px auto; margin-left:auto; margin-right:auto; text-align:center">
+        <label for="rotate" style="color:white">Xoay ảnh</label>
+        <input type="range" name="rotate" id="rotate" value="0" min="0" max="360" data-highlight="true" />
+      </div>
+      <div class="ui-block-b" style="margin: 0px auto; margin-left:auto; margin-right:auto; text-align:center">
+        <label for="effects" style="color:white">Hiệu ứng</label>
+        <select name="effects" id="effects" >
+          <option value="">Chọn bộ lọc</option>
+          <option value="Grayscale">Grayscale</option>
+          <option value="Brighten">Brighten</option>
+          <option value="Darken">Darken</option>
+          <option value="Invert">Invert</option>
+        </select>
+      </div>
+      <div class="ui-block-a">
+        <div data-role="controlgroup" data-type="horizontal" style="margin: 0px auto; margin-left:auto; margin-right:auto; text-align:center;">
+          <p style="color:#FFF">Điều khiển Layer</p>
+          <a data-role="button" data-icon="arrow-d" data-iconpos="notext" id="back"></a> <a data-role="button" data-icon="arrow-l" data-iconpos="notext" id="backward"></a> <a data-role="button" data-icon="arrow-r" data-iconpos="notext" id="forward"></a> <a data-role="button" data-icon="arrow-u" data-iconpos="notext" id="front"></a> </div>
+      </div>
+      <div class="ui-block-b">
+        <div data-role="controlgroup" data-type="horizontal" style="margin: 0px auto; margin-left:auto; margin-right:auto; text-align:center;">
+          <p style="color:#FFF">Lựa chọn thao tác</p>
+          <a data-role="button" data-icon="delete" data-iconpos="left" id="cancel_editimage" >Hủy bỏ</a> <a data-role="button" data-icon="check" data-iconpos="left" id="submit_editimage" >Áp dụng</a> </div>
+      </div>
+    </div>
+  </div>
+  <div data-role="popup" id="editimagemini" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0" class="panel"> <a href="#" data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right close" data-theme="a"></a>
+    <div class="ui-grid-solo">
+      <div class="ui-block-a" style="margin: 0px auto; margin-left:auto; margin-right:auto; text-align:center">
+        <label for="rotate" style="color:white">Xoay ảnh</label>
+        <input type="range" name="rotate" id="rotate" value="0" min="0" max="360" data-highlight="true"  data-mini="true" />
+        <label for="effects" style="color:white">Hiệu ứng</label>
+        <select name="effects" id="effects" data-mini="true">
+          <option value="">Chọn bộ lọc</option>
+          <option value="Grayscale">Grayscale</option>
+          <option value="Brighten">Brighten</option>
+          <option value="Darken">Darken</option>
+          <option value="Invert">Invert</option>
+        </select>
+        <div data-role="controlgroup" data-type="horizontal" style="margin: 0px auto; margin-left:auto; margin-right:auto; text-align:center;">
+          <p style="color:#FFF">Điều khiển Layer</p>
+          <a data-role="button" data-icon="arrow-d" data-iconpos="notext" data-mini="true" id="back"></a> <a data-role="button" data-icon="arrow-l" data-iconpos="notext" data-mini="true" id="backward"></a> <a data-role="button" data-icon="arrow-r" data-iconpos="notext" data-mini="true" id="forward"></a> <a data-role="button" data-icon="arrow-u" data-iconpos="notext" data-mini="true" id="front"></a> </div>
+        <div data-role="controlgroup" data-type="horizontal" style="margin: 0px auto; margin-left:auto; margin-right:auto; text-align:center;">
+          <p style="color:#FFF">Lựa chọn thao tác</p>
+          <a data-role="button" data-icon="delete" data-iconpos="left" id="cancel_editimage" data-mini="true">Hủy bỏ</a> <a data-role="button" data-icon="check" data-iconpos="left" id="submit_editimage" data-mini="true">Áp dụng</a> </div>
+      </div>
+    </div>
+  </div>
+  <div data-role="popup" id="textpanelmini" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0" class="panel"> <a href="#" data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right close" data-theme="a"> </a>
+    <textarea id="text" cols="30" data-mini="true" ></textarea>
+    <label for="choosecolor" style="color:#FFF"> Chọn màu </label>
+    <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true" id="choosecolor">
+      <div data-role="fieldcontain">
+        <label for="textcolor" style="color:#FFF"> Màu chữ: </label>
+        <input type="hidden" name="textcolor" class="color-picker" size="10" id="textcolor"/>
+        <label for="backgroudcolor" style="color:#FFF"> Màu nền: </label>
+        <input type="hidden" name="backgroudcolor" class="color-picker" size="10" id="backgroudcolor" data-opacity="0"/>
+      </div>
+    </fieldset>
+    <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true" id="choosestyle">
+      <input type="radio" name="fontstyle" class="custom" id="bold" value="bold"/>
+      <label for="bold"> b </label>
+      <input type="radio" name="fontstyle"  class="custom" id="italic" value="italic"/>
+      <label for="italic"> <em> i </em> </label>
+      <input type="radio" name="fontstyle"  class="custom" id="normal" value="normal" checked="checked"/>
+      <label for="normal"> n </label>
+    </fieldset>
+    <input type="range" name="fontsize" id="fontsize" value="30" min="5" max="100" data-highlight="true" data-mini="true" />
+    <label for="fontfamily" style="color:#FFF"> Chọn kiểu chữ </label>
+    <select id="fontfamily" data-native-menu="false" data-mini="true">
+      <option value="System font" selected="selected"> System font </option>
+      <option value="Arial"> Arial </option>
+      <option value="Calibri"> Calibri </option>
+      <option value="Tahoma"> Tahoma </option>
+      <option value="Comic Sans MS"> Comic Sans MS </option>
+      <option value="Memes"> Memes </option>
+      <option value="Rage comic"> Rage comic </option>
+      <option value="Simpsons"> Simpsons </option>
+      <option value="Peanuts Gang"> Peanuts Gang </option>
+    </select>
+    <label for="strokewidth" style="color:#FFF"> Độ rộng khung viền </label>
+    <input type="range" name="strokewidth" id="strokewidth" value="0" min="0" max="10" data-highlight="true" data-mini="true" />
+    <br>
+    <label for="strokecolor" style="color:#FFF"> Chọn màu khung viền </label>
+    <input type="hidden" name="strokecolor" class="color-picker" size="10" id="strokecolor" />
+    <div data-role="controlgroup" data-mini="true" data-type="horizontal" style="margin: 0px auto; margin-left:auto; margin-right:auto; text-align:center"> <a  data-role="button" data-mini="true" data-icon="delete" data-iconpos="left" id="cancel_textpanel"> Thiết lập lại </a> <a  data-role="button"  data-mini="true" data-icon="check" data-iconpos="left" id="submit_textpanel"> Áp dụng </a> </div>
+  </div>
+  <div data-role="popup" id="textpanel" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0" class="panel"> <a href="#" data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right close" data-theme="a"> </a>
+    <textarea id="text" cols="30" ></textarea>
+    <div class="ui-grid-a">
+      <div class="ui-block-a">
+        <label for="choosecolor" style="color:#FFF"> Chọn màu </label>
+        <fieldset data-role="controlgroup" data-type="horizontal"  id="choosecolor">
+          <div data-role="fieldcontain">
+            <label for="textcolor" style="color:#FFF"> Màu chữ: </label>
+            <input type="hidden" name="textcolor" class="color-picker" size="10" id="textcolor"/>
+            <label for="backgroudcolor" style="color:#FFF"> Màu nền: </label>
+            <input type="hidden" name="backgroudcolor" class="color-picker" size="10" id="backgroudcolor" data-opacity="0"/>
+          </div>
+        </fieldset>
+        <fieldset data-role="controlgroup" data-type="horizontal" id="choosestyle">
+          <input type="radio" name="fontstyle" class="custom" id="bold" value="bold"/>
+          <label for="bold"> b </label>
+          <input type="radio" name="fontstyle"  class="custom" id="italic" value="italic"/>
+          <label for="italic"> <em> i </em> </label>
+          <input type="radio" name="fontstyle"  class="custom" id="normal" value="normal" checked="checked" />
+          <label for="normal"> n </label>
+        </fieldset>
+        <input type="range" name="fontsize" id="fontsize" value="30" min="5" max="100" data-highlight="true"  />
+      </div>
+      <div class="ui-block-b">
+        <label for="fontfamily" style="color:#FFF"> Chọn kiểu chữ </label>
+        <select id="fontfamily" data-native-menu="false" >
+          <option value="System font" selected="selected"> System font </option>
+          <option value="Arial"> Arial </option>
+          <option value="Calibri"> Calibri </option>
+          <option value="Tahoma"> Tahoma </option>
+          <option value="Comic Sans MS"> Comic Sans MS </option>
+          <option value="Memes"> Memes </option>
+          <option value="Rage comic"> Rage comic </option>
+          <option value="Simpsons"> Simpsons </option>
+          <option value="Peanuts Gang"> Peanuts Gang </option>
+        </select>
+        <label for="strokewidth" style="color:#FFF"> Độ rộng khung viền </label>
+        <input type="range" name="strokewidth" id="strokewidth" value="0" min="0" max="10" data-highlight="true"  />
+        <br>
+        <label for="strokecolor" style="color:#FFF"> Chọn màu khung viền </label>
+        <input type="hidden" name="strokecolor" class="color-picker" size="10" id="strokecolor" />
+      </div>
+    </div>
+    <div data-role="controlgroup"  data-type="horizontal" style="margin: 0px auto; margin-left:auto; margin-right:auto; text-align:center"> <a  data-role="button"  data-icon="delete" data-iconpos="left" id="cancel_textpanel"> Thiết lập lại </a> <a data-role="button"  data-icon="check" data-iconpos="left" id="submit_textpanel"> Áp dụng </a> </div>
+  </div>
+  
+  <div data-role="popup" id="sharefacebook" class="ui-content" data-overlay-theme="a">
+  <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Đóng</a>
+  <div style="width: 500px">
+		<div data-theme="a" data-role="header">
+			<h3>Chia sẻ ảnh lên Facebook</h3>
+		</div>
+		<div data-role="content">
+		
+		  <div class="center" id="user_info">
+          <div id="user_avatar">
+          <img src="navbar/no-image.png" />
+          </div>
+          <p id="user_name">Vui lòng đăng nhập ...</p>
+          </div>
+	
+			<input type="button" value="Đăng nhập" id="login" onclick="promptLogin()"/>
+            <input type="button" value="Đăng xuất" id="logout" onclick="logout()"/>
+            <textarea placeholder="Điền vào thông tin mô tả cho bức ảnh ..." id="message" class="ui-disabled"></textarea>
+            <input type="button" value="Chia sẻ ảnh" id="share" onclick="sharefacebook()" disabled="disabled"/>
+           
+		</div>
+		
+		<div id="action">
+			<div id="loading-icon"></div>
+
+			<div id="msg"></div>
+		</div>
+		</div>
+	</div>
+</div>
+
+<div data-role="page" id="feedback">
+    <div id="sendfeedback" data-theme="a" data-role="header">
+        <a data-role="button" data-direction="reverse" data-rel="back" 
+        href="#main" data-icon="back" data-iconpos="left" class="ui-btn-left">
+            Quay lại
+        </a>
+        <h3>
+            Gửi phản hồi
+        </h3>
+    </div>
+    <div data-role="content">
+        <div id="sendemail" data-role="collapsible-set">
+            <div data-role="collapsible" data-collapsed="false">
+                <h3>
+                    Gửi email
+                </h3>
+                <form action="">
+                    <div data-role="fieldcontain">
+                        
+                            <label for="subject">
+                                Tiêu đề
+                            </label>
+                            <input name="" id="subject" placeholder="Gõ vào tiêu đề" value="" type="text">
+                        
+                    </div>
+                    <div data-role="fieldcontain">
+                        
+                            <label for="content">
+                                Nội dung
+                            </label>
+                            <textarea name="" id="content" placeholder="Gửi ngay cho tôi biết phản hồi của bạn ..." ></textarea>
+                        
+                    </div>
+                    <input type="reset" data-inline="true" data-icon="refresh" data-iconpos="left"
+                    value="Reset" class="ui-btn-right">
+                    <input type="button" data-inline="true" data-icon="check" data-iconpos="left"
+                    value="Submit" class="ui-btn-right" id="submit">
+                </form>
+            </div>
+        </div>
+        <div data-role="collapsible-set">
+            <div data-role="collapsible" data-collapsed="true">
+                <h3>
+                    Điền mẫu khảo sát
+                </h3>
+                <h5>
+                    Cảm ơn bạn đã quan tâm tới phần mềm.hiện tại phần mềm đang trong giai
+                    đoạn phát triển, nên không tránh khỏi những thiếu sót, hay rất có thể sẽ
+                    có 1 vài lỗi nào đó.để giúp phần mềm hoàn thiện hơn, bạn có thể vui lòng
+                    điền vào mẫu khảo sát trong google docs.
+                </h5>
+                <a data-role="button" data-rel="external" target="_blank" data-transition="flip" href="https://docs.google.com/spreadsheet/viewform?pli=1&amp;formkey=dDJnWFNkUFc0SGJOTU0tc0E4QlhWWFE6MQ#gid=0"
+                data-icon="arrow-r" data-iconpos="right">
+                    Đi tới google docs
+                </a>
+            </div>
+        </div>
+        <div data-role="collapsible-set">
+            <div data-role="collapsible" data-collapsed="true">
+                <h3>
+                    Thông tin về phần mềm
+                </h3>
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <h5>
+                            Tên phần mềm
+                        </h5>
+                    </div>
+                    <div class="ui-block-b">
+                        <h5>
+                            Sedi
+                        </h5>
+                    </div>
+                    <div class="ui-block-a">
+                        <h5>
+                            Tác giả
+                        </h5>
+                    </div>
+                    <div class="ui-block-b">
+                        <h5>
+                            Ngô Quang Trung
+                        </h5>
+                    </div>
+                    <div class="ui-block-a">
+                        <h5>
+                            Công nghệ dùng để phát triển
+                        </h5>
+                    </div>
+                    <div class="ui-block-b">
+                        <h5>
+                            HTML5 + Phonegap
+                        </h5>
+                    </div>
+                    <div class="ui-block-a">
+                        <h5>
+                            Email
+                        </h5>
+                    </div>
+                    <div class="ui-block-b">
+                        <h5>
+                            ngotrung.poli.t@gmail.com
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
